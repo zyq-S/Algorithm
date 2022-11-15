@@ -17,7 +17,8 @@ int next()将指针向右移动，然后返回指针处的数字。
 
 本质上就是实现一个树的中序遍历
  */
-/**
+/*
+*法一 扁平
  * @param {TreeNode} root
  */
 var BSTIterator = function (root) {
@@ -53,4 +54,40 @@ BSTIterator.prototype.inorderTraversal = function (root, array) {
  * var obj = new BSTIterator(root)
  * var param_1 = obj.next()
  * var param_2 = obj.hasNext()
+ */
+
+ 
+/*
+*法二 迭代????
+ * @param {TreeNode} root
+ */
+/**
+ * @return {number}
+ */
+ var BSTIterator = function(root) {
+    this.cur = root;
+    this.stack = [];
+};
+
+BSTIterator.prototype.next = function() {
+    while (this.cur) {
+        this.stack.push(this.cur);
+        this.cur = this.cur.left;
+    }
+    this.cur = this.stack.pop();
+    const ret = this.cur.val;
+    this.cur = this.cur.right;
+    return ret;
+};
+
+BSTIterator.prototype.hasNext = function() {
+    return this.cur !== null || this.stack.length;
+};
+/**
+ * Your BSTIterator object will be instantiated and called as such:
+ * var obj = new BSTIterator(root)
+ * var param_1 = obj.next()
+ * var param_2 = obj.hasNext()
+ * 
+ * 思考进阶：你可以设计一个满足下述条件的解决方案吗？next() 和 hasNext() 操作均摊时间复杂度为 O(1) ，并使用 O(h) 内存。其中 h 是树的高度
  */
