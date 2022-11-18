@@ -14,16 +14,15 @@
  * @return {number[]}
  */
 var rightSideView = function (root) {
-    let result = []
-    const dfs = function (root,height) {
+    let array = []
+    const dfs = function (root, height) {
         if (!root) {
             return
         }
-        height++;
-        dfs(root.right)
-        result.push(root)
-        if(height>maxHeight){
-
-        }
+        array[height] = root.val
+        dfs(root.right, height++)
+        dfs(root.left, height++)
     }
+    dfs(root,0)
+    return array
 };
