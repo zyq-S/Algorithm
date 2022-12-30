@@ -45,3 +45,26 @@ const innerPathSum = function (root, targetSum) {
     num += innerPathSum(root.right, targetSum-val)
     return num
 }
+// ***？？？方法二
+var pathSum = function(root, targetSum) {
+    const prefix = new Map();
+    prefix.set(0, 1);
+    return dfs(root, prefix, 0, targetSum);
+}
+
+const dfs = (root, prefix, curr, targetSum) => {
+    if (root == null) {
+        return 0;
+    }
+
+    let ret = 0;
+    curr += root.val;
+
+    ret = prefix.get(curr - targetSum) || 0;
+    prefix.set(curr, (prefix.get(curr) || 0) + 1);
+    ret += dfs(root.left, prefix, curr, targetSum);
+    ret += dfs(root.right, prefix, curr, targetSum);
+    prefix.set(curr, (prefix.get(curr) || 0) - 1);
+
+    return ret;
+}
